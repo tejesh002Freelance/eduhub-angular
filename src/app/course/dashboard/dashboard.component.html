@@ -1,0 +1,179 @@
+<div class="divContent">
+    <h1></h1>
+    <div class="tab-wrap">
+
+        <input type="radio" name="tabs" id="tab1" (change)="changeTab('tab1')" [checked]="selectedTab === 'tab1'">
+        <div class="tab-label-content" id="tab1-content">
+            <label for="tab1">Course</label>
+            <div class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;" scope="col">Type</th>
+                            <th style="width: 50%;" scope="col">Title</th>
+                            <th style="width: 10%;" class="text-center" scope="col">Materials</th>
+                            <th style="width: 15%;" class="text-center" scope="col">Upload on</th>
+                            <th style="width: 10%;" class="text-center" scope="col">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of tableContents">
+                            <td data-label="Type">{{data.type}}</td>
+                            <td data-label="Tilte">{{data.title}}</td>
+                            <td class="text-center" data-label="Materials">{{data.isMaterial ? 'Yes' : 'No'}}</td>
+                            <td class="text-center" data-label="Upload on">{{data.date}}</td>
+                            <td style="cursor: pointer;" class="text-center" data-label="View"
+                                (click)="viewCourse(data.id)"><img width="20" src="../../../assets/view.png">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="viewCourseData.length > 0" class="viewDetails" id="viewDetails">
+                    <h2>{{viewCourseData[0].title}}</h2>
+                    <p>{{viewCourseData[0].description}}</p>
+                    <h4>Course taken by : {{viewCourseData[0].trainer}}</h4>
+                    <h4>Duration : {{viewCourseData[0].duration}}</h4>
+                    <h4>Uploaded on : {{viewCourseData[0].date}}</h4>
+                    <h4>Materials available : {{viewCourseData[0].isMaterial ? 'Yes' : 'No'}}</h4>
+                </div>
+
+            </div>
+        </div>
+
+        <input type="radio" name="tabs" id="tab2" (change)="changeTab('tab2')" [checked]="selectedTab === 'tab2'">
+        <div class="tab-label-content" id="tab2-content">
+            <label for="tab2">My course</label>
+            <div class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;" scope="col">Type</th>
+                            <th style="width: 50%;" scope="col">Title</th>
+                            <th style="width: 10%;" class="text-center" scope="col">Materials</th>
+                            <th style="width: 15%;" class="text-center" scope="col">Upload on</th>
+                            <th style="width: 10%;" class="text-center" scope="col">View/Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of tableContents">
+                            <td data-label="Type">{{data.type}}</td>
+                            <td data-label="Tilte">{{data.title}}</td>
+                            <td class="text-center" data-label="Materials">{{data.isMaterial ? 'Yes' : 'No'}}</td>
+                            <td class="text-center" data-label="Upload on">{{data.date}}</td>
+                            <td style="cursor: pointer;" class="text-center" data-label="View/Edit"
+                                (click)="modifyContent(data.id)">
+                                <img width="20" src="../../../assets/edit.svg">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div style="display: flex; justify-content: end; margin-top: 20px; margin-bottom: 20px;">
+                    <button class="saveBtn" [disabled]="modifyCourseData.length > 0" (click)="addData()">Add
+                        data</button>
+                </div>
+
+                <div *ngIf="modifyCourseData.length > 0" class="viewDetails" id="modifyDetails">
+                    <div>
+                        <p>Title</p>
+                        <input class="modifyInput" (keyup)="onKey($event, 'title')" [value]="modifyCourseData[0].title"
+                            type="text">
+                    </div>
+
+                    <div>
+                        <p>Description</p>
+                        <input class="modifyInput" (keyup)="onKey($event, 'description')" type="text"
+                            [value]="modifyCourseData[0].description">
+                    </div>
+
+                    <div>
+                        <p>Duration</p>
+                        <input class="modifyInput" type="text" (keyup)="onKey($event, 'duration')"
+                            [value]="modifyCourseData[0].duration">
+                    </div>
+
+                    <div class="buttons">
+                        <button class="saveBtn btn-sm" (click)="submitChanges()">Save changes</button>
+                        <button class="deleteBtn btn-sm" (click)="deleteCourse(modifyCourseData[0].id)">Delete</button>
+                        <button class="cancelBtn btn-sm" (click)="modifyCourseData = []">Cancel</button>
+                    </div>
+                </div>
+
+                <div *ngIf="showAdd" class="viewDetails" id="addDetails">
+                    <div>
+                        <p>Type</p>
+                        <input class="modifyInput" (keyup)="onKey($event, 'type')" type="text">
+                    </div>
+
+                    <div>
+                        <p>Title</p>
+                        <input class="modifyInput" (keyup)="onKey($event, 'title')" type="text">
+                    </div>
+
+                    <div>
+                        <p>Description</p>
+                        <input class="modifyInput" (keyup)="onKey($event, 'description')" type="text">
+                    </div>
+
+                    <div>
+                        <p>Duration</p>
+                        <input class="modifyInput" type="text" (keyup)="onKey($event, 'duration')">
+                    </div>
+
+                    <div class="buttons">
+                        <button class="saveBtn"
+                            [disabled]="type.length === 0 || title.length === 0|| description.length === 0 || duration.length === 0"
+                            (click)="addCourse()">Save changes</button>
+                        <button class="cancelBtn" (click)="showAdd = false">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <input type="radio" name="tabs" id="tab3" (change)="changeTab('tab3')" [checked]="selectedTab === 'tab3'">
+        <div class="tab-label-content" id="tab3-content">
+            <label for="tab3">Students</label>
+            <div class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;" scope="col">No</th>
+                            <th style="width: 30%;" scope="col">Student name</th>
+                            <th style="width: 25%;" scope="col">Course Id</th>
+                            <th style="width: 30%;" class="text-center" scope="col">Requested date</th>
+                            <th style="width: 10%;" class="text-center" scope="col">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of studentsCourseData">
+                            <td data-label="No">{{data.id}}</td>
+                            <td data-label="Student name">{{data.studentName}}</td>
+                            <td data-label="Course Id">{{data.courseId}}</td>
+                            <td class="text-center" data-label="Requested date">{{data.requestDate}}</td>
+                            <td class="text-center" data-label="View">
+                                <img width="20" src="../../../assets/view.png" (click)="viewEnquiry(data.id)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="viewEnquiryData.length > 0" class="viewDetails" id="viewDetails">
+                    <h2>Course Id: {{viewEnquiryData[0].courseId}}</h2>
+                    <p>{{viewEnquiryData[0].enquiry}}</p>
+                    <h4>Enquired on : {{viewEnquiryData[0].requestDate}}</h4>
+                    <div class="buttons">
+                        <button class="saveBtn">Accept</button>
+                        <button class="deleteBtn">Decline</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="slide"></div>
+    </div>
+
+</div>
