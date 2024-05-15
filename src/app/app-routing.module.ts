@@ -1,19 +1,14 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './home/login/login.component';
-import { DashboardComponent } from './course/dashboard/dashboard.component';
-import { StudentDashboardComponent } from './course/student-dashboard/student-dashboard.component';
+import { EducatorComponent } from './educator/educator.component';
+import { StudentComponent } from './student/student.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'login',
-    component: LoginComponent,
-    pathMatch: 'full',
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'student_dashboard', component: StudentDashboardComponent },
+  { path: 'student', component: StudentComponent },
+  { path: 'educator', component: EducatorComponent },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 
@@ -21,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

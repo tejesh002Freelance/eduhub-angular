@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../service/api.service';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/service/api.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-educator',
+  templateUrl: './educator.component.html',
+  styleUrls: ['./educator.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class EducatorComponent implements OnInit {
+
   public tableContents = [
     {
       id: 1,
@@ -215,4 +216,5 @@ export class DashboardComponent implements OnInit {
       }
     }, 100);
   }
+
 }

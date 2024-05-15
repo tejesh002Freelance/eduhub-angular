@@ -10,7 +10,7 @@
       [checked]="selectedTab === 'tab1'"
     />
     <div class="tab-label-content" id="tab1-content">
-      <label for="tab1">Crop</label>
+      <label for="tab1">Students</label>
       <div class="tab-content">
         <table>
           <thead>
@@ -74,7 +74,7 @@
       [checked]="selectedTab === 'tab2'"
     />
     <div class="tab-label-content" id="tab2-content">
-      <label for="tab2">AgroChemicals</label>
+      <label for="tab2">MyCources</label>
       <div class="tab-content">
         <table>
           <thead>
@@ -246,64 +246,7 @@
       [checked]="selectedTab === 'tab3'"
     />
     <div class="tab-label-content" id="tab3-content">
-      <label for="tab3">MyRequest</label>
-      <div class="tab-content">
-        <table>
-          <thead>
-            <tr>
-              <th style="width: 15%" scope="col">No</th>
-              <th style="width: 30%" scope="col">Student name</th>
-              <th style="width: 25%" scope="col">Course Id</th>
-              <th style="width: 30%" class="text-center" scope="col">
-                Requested date
-              </th>
-              <th style="width: 10%" class="text-center" scope="col">View</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of studentsCourseData">
-              <td data-label="No">{{ data.id }}</td>
-              <td data-label="Student name">{{ data.studentName }}</td>
-              <td data-label="Course Id">{{ data.courseId }}</td>
-              <td class="text-center" data-label="Requested date">
-                {{ data.requestDate }}
-              </td>
-              <td class="text-center" data-label="View">
-                <img
-                  width="20"
-                  src="../../../assets/view.png"
-                  (click)="viewEnquiry(data.id)"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div
-          *ngIf="viewEnquiryData.length > 0"
-          class="viewDetails"
-          id="viewDetails"
-        >
-          <h2>Course Id: {{ viewEnquiryData[0].courseId }}</h2>
-          <p>{{ viewEnquiryData[0].enquiry }}</p>
-          <h4>Enquired on : {{ viewEnquiryData[0].requestDate }}</h4>
-          <div class="buttons">
-            <button class="saveBtn">Accept</button>
-            <button class="deleteBtn">Decline</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <input
-      type="radio"
-      name="tabs"
-      id="tab4"
-      (change)="changeTab('tab4')"
-      [checked]="selectedTab === 'tab4'"
-    />
-    <div class="tab-label-content" id="tab4-content">
-      <label for="tab4">FormRequest</label>
+      <label for="tab3">Courses List</label>
       <div class="tab-content">
         <table>
           <thead>
