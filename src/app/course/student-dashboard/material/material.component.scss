@@ -1,0 +1,25 @@
+.saveBtn {
+    padding: 12px 13px;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.596);
+    background: #3d4c74;
+}
+
+.cancelBtn {
+    padding: 12px 13px;
+    color: black;
+    font-size: 16px;
+    border-radius: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.596);
+    background: orange;
+}
+
+::ng-deep.modal-backdrop {
+    z-index: 0  !important;
+}
+
+div#materialModel {
+    z-index: 2000 !important;
+}

@@ -1,0 +1,50 @@
+<div class="tab-wrap">
+    <div class="tab-label-content">
+        <div class="tab-content">
+            <div class="example-header">
+                <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+              </div>
+              <div class="example-container mat-elevation-z8">
+                <mat-table [dataSource]="dataSource" matSort>
+                  <ng-container matColumnDef="_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row._id}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="username">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.username}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="mobileNumber">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.mobileNumber}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="createdAt">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>created Date</mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.createdAt  | date: 'yyyy-MM-dd'}} </mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;">
+                  </mat-row>
+                </mat-table>
+                <div class="d-flex justify-content-center p-5" *ngIf="allStudent?.length == 0">
+                  No records found
+               </div>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              </div>
+           </div>
+        <div *ngIf="viewCourseDataShow" class="viewDetails" id="viewCourse">
+            <h2>Title : {{viewCourseData?.title}}</h2>
+            <p>Description : {{viewCourseData?.description}}</p>
+            <p>Start Date : {{viewCourseData?.category}}</p>
+            <p>Level : {{viewCourseData?.level}}</p>
+            <p>course Start Date : {{viewCourseData?.courseStartDate | date: 'yyyy-MM-dd'}}</p>
+            <p>course End Date : {{viewCourseData?.courseEndDate | date: 'yyyy-MM-dd'}}</p>
+         </div>
+    </div>
+</div>

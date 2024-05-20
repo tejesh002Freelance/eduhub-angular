@@ -1,0 +1,116 @@
+<div class="divContent">
+    <h1></h1>
+    <div class="tab-wrap">
+        <div class="tab-label-content">
+            <button class="saveBtn float-right" data-toggle="modal" data-target="#materialModel"
+                (clicl)="openModel()">Add
+                Material</button>
+             <div class="tab-content">
+                <div class="example-header">
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                    </mat-form-field>
+                </div>
+                <div class="example-container mat-elevation-z8">
+                    <mat-table [dataSource]="dataSource" matSort>
+                          <ng-container matColumnDef="title">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="contentType">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Content Type </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.contentType}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="url">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Url</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.url}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="description">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
+                        </ng-container>
+                       
+                        <ng-container matColumnDef="action">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Action </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                 <a (click)="EditData(row)" data-toggle="modal" data-target="#materialModel"> <img
+                                        width="20" src="../../../assets/edit.svg"> </a>
+                                <a (click)="deleteMaterial(row)" class="p-2"><img width="20"
+                                        src="../../../assets/trash.png"></a>
+                            </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                        </mat-row>
+                    </mat-table>
+                    <div class="d-flex justify-content-center p-5" *ngIf="materialData?.length == 0">
+                        No records found
+                     </div>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="modal" id="materialModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">{{isEdit == true ? 'Edit' : 'Add New'}} Material</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="user-login" [formGroup]="materialForm">
+                    <div class="sign-in-htm">
+                        <div class="form-group">
+                            <label for="title" class="label">Title <span class="required-symbol">*</span></label>
+                            <input id="title" type="text" class="form-control" formControlName="title" required>
+                            <div *ngIf="submitted && materialForm.controls.title.errors?.required"
+                                class="text-danger mt-1">
+                                <div *ngIf="materialForm.controls.title.errors?.required">Title is required.</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="label">Description<span
+                                    class="required-symbol">*</span></label>
+                            <textarea class="form-control" id="description" rows="3" formControlName="description"
+                                required></textarea>
+                            <div *ngIf="submitted && materialForm.controls.description.errors?.required"
+                                class="text-danger mt-1">
+                                <div *ngIf="materialForm.controls.description.errors?.required">Description is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="category" class="label">Url<span class="required-symbol">*</span></label>
+                            <input id="url" class="form-control" type="text" formControlName="url" required>
+                            <div *ngIf="submitted && materialForm.controls.url.errors?.required"
+                                class="text-danger mt-1">
+                                <div *ngIf="materialForm.controls.url.errors?.required">
+                                    Url is required.</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contentType" class="label">contentType<span
+                                    class="required-symbol">*</span></label>
+                            <input id="contentType" class="form-control" type="text" formControlName="contentType"
+                                required>
+                            <div *ngIf="submitted && materialForm.controls.contentType.errors?.required"
+                                class="text-danger mt-1">
+                                <div *ngIf="materialForm.controls.contentType.errors?.required">
+                                    Content Type is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="cancelBtn" data-dismiss="modal">Close</button>
+                <button type="button" class="saveBtn" (click)="addCourseData()" data-dismiss="modal">{{isEdit == true ?
+                    'Edit' : 'Save'}}</button>
+            </div>
+        </div>
+    </div>
+</div>

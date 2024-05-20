@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApiService } from 'src/app/service/api.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   public tableContents = [
     {
       id: 1,
@@ -98,23 +96,6 @@ export class DashboardComponent implements OnInit {
   public description: string = '';
   public duration: string = '';
   public showAdd = false;
-
-  constructor(private apiService: ApiService, private router: Router) { }
-
-  ngOnInit() {
-    const accessToken = sessionStorage.getItem('access_token');
-    if (!accessToken) {
-      this.router.navigate(['login']);
-    }
-
-    this.apiService.getRole().subscribe(res => {
-      console.log('respospdospdos', res);
-      if (res.success) {
-        sessionStorage.setItem('userObj', JSON.stringify(res.user));
-        sessionStorage.setItem('userRole', res.user.role);
-      }
-    }, err => { console.log(err); });
-  }
 
   changeTab(tab: string) {
     this.selectedTab = tab;

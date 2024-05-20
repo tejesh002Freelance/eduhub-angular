@@ -1,110 +1,50 @@
 <div class="divContent">
     <h1></h1>
     <div class="tab-wrap">
-
-        <input type="radio" name="tabs" id="tab1" (change)="changeTab('tab1')" [checked]="selectedTab === 'tab1'">
-        <div class="tab-label-content" id="tab1-content">
-            <label for="tab1">Course</label>
-            <div class="tab-content">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;" scope="col">Type</th>
-                            <th style="width: 50%;" scope="col">Title</th>
-                            <th style="width: 10%;" class="text-center" scope="col">Materials</th>
-                            <th style="width: 15%;" class="text-center" scope="col">Upload on</th>
-                            <th style="width: 10%;" class="text-center" scope="col">View</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let data of tableContents">
-                            <td data-label="Type">{{data.type}}</td>
-                            <td data-label="Tilte">{{data.title}}</td>
-                            <td class="text-center" data-label="Materials">{{data.isMaterial ? 'Yes' : 'No'}}</td>
-                            <td class="text-center" data-label="Upload on">{{data.date}}</td>
-                            <td style=" cursor: pointer;" class="text-center" data-label="View"
-                                (click)="viewCourseDetails(data.id)">
-                                <img width="20" src="../../../assets/view.png">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div *ngIf="viewCourseData.length > 0" class="viewDetails" id="viewDetails">
-                    <h2>{{viewCourseData[0].title}}</h2>
-                    <p>{{viewCourseData[0].description}}</p>
-                    <h4>Course taken by : {{viewCourseData[0].trainer}}</h4>
-                    <h4>Duration : {{viewCourseData[0].duration}}</h4>
-                    <h4>Uploaded on : {{viewCourseData[0].date}}</h4>
-                    <h4>Materials available : {{viewCourseData[0].isMaterial ? 'Yes' : 'No'}}</h4>
-
-                    <div class="buttons" style="display: flex; justify-content: flex-start; margin-top: 20px;">
-                        <button class="saveBtn" (click)="viewCourseData = []">Apply</button>
-                        <button class="cancelBtn" [disabled]="showAdd" (click)="scroll()">Add enquiry</button>
-                    </div>
-
-                    <div *ngIf="showAdd" class="viewDetails" id="addDetails">
-                        <div>
-                            <p>Enquiry details</p>
-                            <input class="modifyInput" (keyup)="onKey($event, 'enquiry')" type="text">
-                        </div>
-
-
-                        <div class="buttons">
-                            <button class="saveBtn" [disabled]="enquiry.length === 0"
-                                (click)="addEnquiry(viewCourseData[0].id)">Submit</button>
-                            <button class="cancelBtn" (click)="showAdd = false">Cancel</button>
-                        </div>
-                    </div>
+        <ng-container *ngIf="userDetails.role == 'Educator'">
+            <input type="radio" name="tabs" id="tab1" (change)="changeTab('tab1')" [checked]="selectedTab === 'tab1'">
+            <div class="tab-label-content" id="tab1-content">
+                <label for="tab1">Student</label>
+               <div class="tab-content">
+                    <app-student></app-student>
                 </div>
-
-
-
             </div>
-        </div>
-
-        <input type="radio" name="tabs" id="tab2" (change)="changeTab('tab2')" [checked]="selectedTab === 'tab2'">
-        <div class="tab-label-content" id="tab2-content">
-            <label for="tab2">My course</label>
-            <div class="tab-content">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;" scope="col">Type</th>
-                            <th style="width: 50%;" scope="col">Title</th>
-                            <th style="width: 10%;" class="text-center" scope="col">Materials</th>
-                            <th style="width: 15%;" class="text-center" scope="col">Upload on</th>
-                            <th style="width: 10%;" class="text-center" scope="col">View</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let data of tableContents">
-                            <td data-label="Type">{{data.type}}</td>
-                            <td data-label="Tilte">{{data.title}}</td>
-                            <td class="text-center" data-label="Materials">{{data.isMaterial ? 'Yes' : 'No'}}</td>
-                            <td class="text-center" data-label="Upload on">{{data.date}}</td>
-                            <td style=" cursor: pointer;" class="text-center" data-label="View"
-                                (click)="viewCourse(data.id)"><img width="20" src="../../../assets/view.png">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div *ngIf="viewCourseData.length > 0" class="viewDetails" id="viewCourse">
-                    <h2>{{viewCourseData[0].title}}</h2>
-                    <p>{{viewCourseData[0].description}}</p>
-                    <h4>Course taken by : {{viewCourseData[0].trainer}}</h4>
-                    <h4>Duration : {{viewCourseData[0].duration}}</h4>
-                    <h4>Uploaded on : {{viewCourseData[0].date}}</h4>
-                    <h4>Materials available : {{viewCourseData[0].isMaterial ? 'Yes' : 'No'}}</h4>
-                </div>
-
-            </div>
-        </div>
-
+        </ng-container>
         <input type="radio" name="tabs" id="tab3" (change)="changeTab('tab3')" [checked]="selectedTab === 'tab3'">
         <div class="tab-label-content" id="tab3-content">
-            <label for="tab3">Enquiry</label>
+            <label for="tab3">Course</label>
+           <div class="tab-content">
+                <app-course-all></app-course-all>
+            </div>
+        </div>
+        <input type="radio" name="tabs" id="tab2" (change)="changeTab('tab2')" [checked]="selectedTab === 'tab2'">
+        <div class="tab-label-content" id="tab2-content">
+            <label for="tab2">My Courses</label>
+           <div class="tab-content">
+                <app-course></app-course>
+            </div>
+        </div>
+        <ng-container *ngIf="userDetails.role != 'Educator'">
+            <input type="radio" name="tabs" id="tab4" (change)="changeTab('tab4')" [checked]="selectedTab === 'tab4'">
+            <div class="tab-label-content" id="tab4-content">
+                <label for="tab4">Enquiry</label>
+               <div class="tab-content">
+                    <app-all-enquiry></app-all-enquiry>
+                </div>
+            </div>
+        </ng-container>
+        <a class="float-right" class="d-flex" (click)="logOut()">Logout <mat-icon>power_settings_new</mat-icon> </a>
+        <!-- <input type="radio" name="tabs" id="tab3" (change)="changeTab('tab3')" [checked]="selectedTab === 'tab3'">
+        <div class="tab-label-content" id="tab3-content">
+            <label for="tab3">Material</label>
+            <div class="tab-content">
+                <app-material></app-material>
+            </div>
+        </div> -->
+
+        <!-- <input type="radio" name="tabs" id="tab4" (change)="changeTab('tab4')" [checked]="selectedTab === 'tab4'">
+        <div class="tab-label-content" id="tab4-content">
+            <label for="tab4">Enquiry</label>
             <div class="tab-content">
                 <table>
                     <thead>
@@ -128,17 +68,13 @@
                         </tr>
                     </tbody>
                 </table>
-
                 <div *ngIf="viewEnquiryData.length > 0" class="viewDetails" id="viewDetails">
                     <h2>Course Id: {{viewEnquiryData[0].courseId}}</h2>
                     <p>{{viewEnquiryData[0].enquiry}}</p>
                     <h4>Enquired on : {{viewEnquiryData[0].requestDate}}</h4>
                 </div>
             </div>
-        </div>
-
+        </div> -->
         <div class="slide"></div>
-
     </div>
-
 </div>

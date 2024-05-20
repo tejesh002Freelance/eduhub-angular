@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/service/api.service';
-import { ToastService } from 'src/app/service/toast.service';
+import { LoginRegService } from 'src/app/services/Login/login-reg.service';
+
 
 @Component({
   selector: 'app-login',
@@ -10,100 +11,118 @@ import { ToastService } from 'src/app/service/toast.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  public loginForm: FormGroup;
+  registrationForm: FormGroup;
+  selectedTab = 'tab-1'
+  public submitted = false;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  constructor(private formBuilder: FormBuilder,
+    public router: Router,
+    public loginRegService: LoginRegService, private _snackBar: MatSnackBar) {
+    this.loginForm = this.formBuilder.group({
+      username: ["", [Validators.required]],
+      password: [
+        "", [
+          Validators.required,
+          
+        ]
+      ]
+    });
 
-  constructor(public router: Router, private apiService: ApiService, private toast: ToastService, private sanitizer: DomSanitizer) { }
-
-  isLogin: boolean = true;
-
-  loginReqObj = {
-    username: null,
-    password: null
+    this.registrationForm = this.formBuilder.group({
+      username: ["", [Validators.required]],
+      email: ["", [Validators.email,Validators.required]],
+      phoneNumber: ["", [Validators.required]],
+      role: ["", [Validators.required]],
+      profile: ["", [Validators.required]],
+      password: [
+        "", [
+          Validators.required,
+          Validators.pattern(
+            "(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!#^~%*?&,.<>\"'\\;:{\\}\\[\\]\\|\\+\\-\\=\\_\\)\\(\\)\\`\\/\\\\\\]])[A-Za-z0-9d$@].{7,}"
+          )
+        ]
+      ]
+    })
   }
-
-  regReqObj = {
-    username: null,
-    email: null,
-    password: null,
-    role: null,
-    mobileNumber: null,
-    profileImage: null
-  }
-
-  loginAndGoToDashboard() {
-    const hasNullValue = Object.values(this.loginReqObj).some(value => value === null);
-    if (!hasNullValue) {
-      this.apiService.login(this.loginReqObj).subscribe(res => {
-        console.log('login user res', res);
-        // set token to the session storage as access_token
-        if (res.success) {
-          this.toast.success('Login successful');
-          sessionStorage.setItem('access_token', res.token);
-
-          setTimeout(() => {
-            this.apiService.getRole().subscribe(ress => {
-              console.log('dataaaa', res);
-            }, err => {
-              console.log('error', err);
-            })
-
-          }, 1000)
-
-          if(res.user.role === 'Educator'){
-            this.router.navigate(['educator'])
-          } else {
-            this.router.navigate(['student'])
-          }
-        }
-      }, err => {
-        console.log('login error', err);
-        this.toast.error(err.error.message);
-      });
-    } else {
-      this.toast.error('All fields are required!');
+  changeTab(tab: string) {
+    this.selectedTab = tab;
+    this.submitted = false
+    this.loginForm.reset();
+    this.registrationForm.reset();
+   }
+  goToDashboard() {
+    this.submitted = true;
+    if (this.loginForm.invalid) {
+      return
     }
-  }
-
-  // fileToBase64(fileInput) {
-  //   console.log('fileToBase64', fileInput);
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       resolve(String(reader.result).split(',')[1]);
-  //     };
-  //     reader.onerror = (error) => {
-  //       reject(error);
-  //     };
-  //     reader.readAsDataURL(fileInput[0]);
-  //   });
-  // }
-
-  handleFileInput(event: any) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64String = reader.result as string;
-      // this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(base64String)
-      this.regReqObj.profileImage = base64String
-    };
-    reader.readAsDataURL(file);
-  }
-
-  async registerUser() {
-    const hasNullValue = Object.values(this.regReqObj).some(value => value === null);
-    if (!hasNullValue) {
-      console.log("image base64 string", this.regReqObj, this.regReqObj.profileImage);
-      this.apiService.register(this.regReqObj).subscribe(res => {
-        console.log('register user res', res);
-        this.router.navigate(['login']);
-        if(res.status){
-          this.toast.success("User register Successfully")
-        }
-      }, err => {
-        console.log('register error', err);
-      });
-    } else {
-      this.toast.error('All fields are required!');
+    let json = {
+      'username': this.loginForm.controls.username.value,
+      'password': this.loginForm.controls.password.value
     }
-
+    this.loginRegService.login(json).subscribe((res: any) => {
+      if(res.success == true){
+        localStorage.setItem('token',res.token)
+        localStorage.setItem('userId',res.token)
+        this.router.navigate(['student_dashboard']);
+      }else{
+        this.loginForm.reset();
+        this._snackBar.open(res.message, 'X', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      }
+    },error => {
+      if(error){
+        this.loginForm.reset();
+        this.submitted = false;
+        this._snackBar.open('Invalid Credentials', 'X', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      }
+      console.log(error.status); // This comes back with 200 !!!!!!!!
+  })
+   
+  }
+  handleFileInput(files: FileList) {
+    // this.fileToUpload = files.item(0);
+  }
+  registrationUser(){
+    this.submitted = true;
+    if (this.registrationForm.invalid) {
+      return
+    }
+    let json = {
+      'username': this.registrationForm.controls.username.value,
+      'password': this.registrationForm.controls.password.value,
+      'role':this.registrationForm.controls.role.value,
+      'email':this.registrationForm.controls.email.value,
+      'mobileNumber':this.registrationForm.controls.phoneNumber.value,
+      'profileImage':this.registrationForm.controls.profile.value,
+    }
+    this.loginRegService.registration(json).subscribe((res : any)=>{
+      if(res.success == true){
+        this.selectedTab = 'tab-1';
+        this.submitted = false;
+        this.loginForm.reset();
+        this._snackBar.open('User Successfully Registered', 'X', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+        // this.router.navigate(['dashboard']);
+      }
+    },error => {
+      if(error){
+        this.registrationForm.reset();
+        this.submitted = false;
+        this._snackBar.open('User already exists.', 'X', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      }
+      console.log(error.status); // This comes back with 200 !!!!!!!!
+  })
   }
 }

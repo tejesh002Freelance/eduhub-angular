@@ -26,8 +26,8 @@ a {
 .login-wrap {
   width: 100%;
   margin: auto;
-  max-width: 525px;
-  min-height: 610px;
+  max-width: 527px;
+  min-height: 699px;
   position: relative;
   background: url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg)
     no-repeat center;
@@ -111,6 +111,7 @@ a {
   text-security: circle;
   -webkit-text-security: circle;
 }
+
 .login-form .group .label {
   color: #aaa;
   font-size: 12px;
@@ -180,4 +181,7 @@ a {
 .foot-lnk {
   text-align: center;
   color: rgb(204, 184, 184);
+}
+option {
+  color: black;
 }

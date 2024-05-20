@@ -1,0 +1,65 @@
+<div class="divContent">
+    <div class="tab-wrap">
+        <div class="tab-label-content">
+            <div class="tab-content">
+                <div class="example-header">
+                    <mat-form-field><input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter"> </mat-form-field>
+                </div>
+                <div class="example-container mat-elevation-z8">
+                    <mat-table [dataSource]="dataSource" matSort>
+                         <ng-container matColumnDef="subject">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Sbject </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.subject}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> status </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.status}} </mat-cell>
+                        </ng-container>
+                       <ng-container matColumnDef="enquiryDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Enquiry Date</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.enquiryDate | date: 'yyyy-MM-dd'}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="course">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>course</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.courseId.title}} </mat-cell> </ng-container>
+                        <ng-container matColumnDef="response">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>response </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.response}} </mat-cell></ng-container>
+                            <ng-container matColumnDef="action">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Action </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <button type="button" class="saveBtn" (click)="viewEnq(row)">Change Status</button>
+                                 </mat-cell>
+                            </ng-container>   
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                    <div  class="d-flex justify-content-center p-5"  *ngIf="enquiries.length == 0">
+                        No records found
+                     </div>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+                <div>
+                     <div *ngIf="isShowEnq" class="viewDetails mt-2" id="viewCourse">
+                        <h1>Add enquiry</h1>
+                        <form class="user-login" [formGroup]="addEnq">
+                            <div class="sign-in-htm">
+                                <div class="form-group">
+                                    <label for="reason" class="label">Reason <span
+                                            class="required-symbol">*</span></label>
+                                    <input id="reason" type="text" class="form-control" formControlName="reason" required>
+                                    <div *ngIf="submitted && addEnq.controls.reason.errors?.required"
+                                        class="text-danger mt-1">
+                                        <div *ngIf="addEnq.controls.subject.errors?.required">Reason is required.</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="cancelBtn"(click)="close()" >Close</button>
+                                <button type="button" class="saveBtn" (click)="changeStatus()" data-dismiss="modal">Change Status</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+    </div>
+</div>

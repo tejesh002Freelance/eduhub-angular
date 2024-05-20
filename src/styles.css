@@ -3,3 +3,12 @@
   color: red; /* or any other color you prefer */
   margin-left: 3px; /* Add some spacing between the label text and the "*" symbol */
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+button {
+  cursor: pointer;
+}
