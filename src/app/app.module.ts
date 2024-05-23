@@ -28,8 +28,10 @@ import { CourseAllComponent } from './course/student-dashboard/course-all/course
 import { EnquiryComponent } from './course/student-dashboard/enquiry/enquiry.component';
 import { AllEnquiryComponent } from './course/student-dashboard/all-enquiry/all-enquiry.component';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { HeaderComponent } from './header/header.component';
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, StudentDashboardComponent,  CourseComponent, MaterialComponent, StudentComponent, EnrollmentsComponent, CourseAllComponent, EnquiryComponent, AllEnquiryComponent,],
+     
+     declarations: [AppComponent, DashboardComponent, StudentDashboardComponent,  CourseComponent, HeaderComponent,MaterialComponent, StudentComponent, EnrollmentsComponent, CourseAllComponent, EnquiryComponent, AllEnquiryComponent,],
   imports: [BrowserModule ,
     LoginModule,
     AppRoutingModule,
@@ -47,7 +49,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
      MatPaginatorModule,
      MatIconModule,
      CommonModule,
-     MatTabsModule
+     MatTabsModule,
    ],
   providers: [DatePipe,{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

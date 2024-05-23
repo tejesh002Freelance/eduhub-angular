@@ -8,8 +8,10 @@ import { Component } from '@angular/core';
 export class StudentDashboardComponent {
   public selectedTab: string = 'tab1';
   userDetails = JSON.parse(localStorage.getItem('currentUser'))
-
+  userName : any;
   constructor() {
+    this.userName = this.userDetails.username.charAt(0).toUpperCase() + this.userDetails.username.slice(1); 
+    console.log("userDetails",this.userName)
     if (this.userDetails != 'Educator') {
       this.selectedTab = 'tab3'
     } else {

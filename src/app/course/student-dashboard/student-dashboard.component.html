@@ -1,11 +1,22 @@
+<div class="setHeader">
+    <h1 class="">Eduhub - Educator Dashboard</h1>
+    <a class="setUserName float-right nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{userName}}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="d-flex justify-content-center" (click)="logOut()">Logout <mat-icon>power_settings_new</mat-icon> </a>
+    </div>
+
+</div>
 <div class="divContent">
-    <h1></h1>
+
     <div class="tab-wrap">
         <ng-container *ngIf="userDetails.role == 'Educator'">
             <input type="radio" name="tabs" id="tab1" (change)="changeTab('tab1')" [checked]="selectedTab === 'tab1'">
             <div class="tab-label-content" id="tab1-content">
                 <label for="tab1">Student</label>
-               <div class="tab-content">
+                <div class="tab-content">
                     <app-student></app-student>
                 </div>
             </div>
@@ -13,14 +24,14 @@
         <input type="radio" name="tabs" id="tab3" (change)="changeTab('tab3')" [checked]="selectedTab === 'tab3'">
         <div class="tab-label-content" id="tab3-content">
             <label for="tab3">Course</label>
-           <div class="tab-content">
+            <div class="tab-content">
                 <app-course-all></app-course-all>
             </div>
         </div>
         <input type="radio" name="tabs" id="tab2" (change)="changeTab('tab2')" [checked]="selectedTab === 'tab2'">
         <div class="tab-label-content" id="tab2-content">
             <label for="tab2">My Courses</label>
-           <div class="tab-content">
+            <div class="tab-content">
                 <app-course></app-course>
             </div>
         </div>
@@ -28,12 +39,12 @@
             <input type="radio" name="tabs" id="tab4" (change)="changeTab('tab4')" [checked]="selectedTab === 'tab4'">
             <div class="tab-label-content" id="tab4-content">
                 <label for="tab4">Enquiry</label>
-               <div class="tab-content">
+                <div class="tab-content">
                     <app-all-enquiry></app-all-enquiry>
                 </div>
             </div>
         </ng-container>
-        <a class="float-right" class="d-flex" (click)="logOut()">Logout <mat-icon>power_settings_new</mat-icon> </a>
+
         <!-- <input type="radio" name="tabs" id="tab3" (change)="changeTab('tab3')" [checked]="selectedTab === 'tab3'">
         <div class="tab-label-content" id="tab3-content">
             <label for="tab3">Material</label>

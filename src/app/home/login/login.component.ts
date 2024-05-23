@@ -65,7 +65,7 @@ export class LoginComponent {
       if(res.success == true){
         localStorage.setItem('token',res.token)
         localStorage.setItem('userId',res.token)
-        this.router.navigate(['student_dashboard']);
+        this.router.navigate(['dashboard']);
       }else{
         this.loginForm.reset();
         this._snackBar.open(res.message, 'X', {

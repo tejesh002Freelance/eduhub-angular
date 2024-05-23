@@ -46,7 +46,7 @@
                         <mat-row *matRowDef="let row; columns: displayedColumns;">
                         </mat-row>
                     </mat-table>
-                    <div  class="d-flex justify-content-center p-5"  *ngIf="enquiries.length == 0">
+                    <div  class="d-flex justify-content-center p-5"  *ngIf="courseData.length== 0">
                         No records found
                      </div>
                     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
