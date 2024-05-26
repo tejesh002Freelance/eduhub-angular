@@ -1,135 +1,107 @@
 <div class="login-wrap">
-  <div class="login-html">
-    <input id="tab-1" type="radio" name="tab" class="sign-in" checked /><label
-      for="tab-1"
-      class="tab"
-      >Sign In</label
-    >
-    <input id="tab-2" type="radio" name="tab" class="sign-up" /><label
-      for="tab-2"
-      class="tab"
-      >Sign Up</label
-    >
-    <div class="login-form">
-      <div class="sign-in-htm">
-        <div class="group">
-          <label for="user" class="label"
-            >Username <span class="required-symbol">*</span></label
-          >
-          <input
-            id="user"
-            type="text"
-            class="input"
-            [(ngModel)]="loginReqObj.username"
-          />
+    <div class="login-html">
+        <input id="tab-1" type="radio" name="tab" class="sign-in" [checked]="selectedTab === 'tab-1'"  (change)="changeTab('tab-1')" >  <label for="tab-1" class="tab">Sign In</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up" [checked]="selectedTab === 'tab-2'"  (change)="changeTab('tab-2')" ><label for="tab-2" class="tab">Sign Up</label>
+        <div class="login-form" >
+            <form class="user-login" [formGroup]="loginForm">
+                <div class="sign-in-htm">
+                    <div class="group">
+                        <label for="user" class="label">Username <span class="required-symbol">*</span></label>
+                        <input id="user" type="text" class="input" formControlName="username" required>
+                        <div *ngIf="submitted && loginForm.controls.username.errors?.required" class="text-danger mt-1">
+                           <div *ngIf="loginForm.controls.username.errors?.required">Username is required.</div>
+                        </div>
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">Password<span class="required-symbol">*</span></label>
+                        <input id="pass" type="password" class="input" data-type="password" formControlName="password"
+                            required>
+                        <div *ngIf="submitted && loginForm.controls.password.errors" class="text-danger mt-1">
+                            <div *ngIf="loginForm.controls.password.errors?.required">Password is required.</div>
+                          
+                        </div>
+                    </div>
+                    <div class="group">
+                        <input type="submit" (click)="goToDashboard()" class="button" value="Sign In">
+                    </div>
+                </div>
+            </form>
+            <div>
+                <form class="user-login" [formGroup]="registrationForm">
+                    <div class="sign-up-htm">
+                        <div class="group">
+                            <label for="username" class="label">Username<span class="required-symbol">*</span></label>
+                            <input id="username" type="text" class="input" formControlName="username" required>
+                            <div *ngIf="submitted && registrationForm.controls.username.errors?.required"
+                                class="text-danger mt-1">
+                                <div *ngIf="registrationForm.controls.username.errors?.required">Username is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label for="email" class="label">Email<span class="required-symbol">*</span></label>
+                            <input id="email" type="email" class="input" formControlName="email" required>
+                            <div *ngIf="submitted && registrationForm.controls.email.errors" class="text-danger">
+                                <div *ngIf="registrationForm.controls.email.errors.email">Email must be valid.</div>
+                                <div *ngIf="registrationForm.controls.email.errors.required">Email is required.</div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label for="pass" class="label">Password<span class="required-symbol">*</span></label>
+                            <input id="pass" type="password" class="input" formControlName="password" required>
+                            <div *ngIf="submitted && registrationForm.controls.password.errors"
+                                class="text-danger mt-1">
+                                <div *ngIf="registrationForm.controls.password.errors?.required">Password is required.
+                                </div>
+                                <div *ngIf="registrationForm.controls.password.errors.pattern">
+                                    <ul>
+                                        <li>Password should be alphanumeric</li>
+                                        <li>A letter of the password should be capital</li>
+                                        <li>Password must contain a special character (@, $, !, &, etc)</li>
+                                        <li>Password length must be greater than 7 characters</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label for="phone" class="label">Mobile Number<span class="required-symbol">*</span></label>
+                            <input id="phone" type="text" class="input" formControlName="phoneNumber" required>
+                            <div *ngIf="submitted && registrationForm.controls.phoneNumber.errors" class="text-danger">
+                                <div *ngIf="registrationForm.controls.phoneNumber.errors.required">Mobile Number is
+                                    required.</div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label for="role" class="label">Role<span class="required-symbol">*</span></label>
+                            <select id="role" class="input" formControlName="role" required>
+                                <option value="">Select a role</option>
+                                <option value="Student">Student</option>
+                                <option value="Educator">Educator</option>
+                            </select>
+                            <div *ngIf="submitted && registrationForm.controls.role.errors" class="text-danger">
+                                <div *ngIf="registrationForm.controls.role.errors.required">Please select Role is
+                                    required.</div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label for="image" class="label">Profile Image<span class="required-symbol">*</span></label>
+                            <input id="image" type="file" class="input" accept="image/*" formControlName="profile" (change)="handleFileInput($event.target.files)" 
+                                required>
+                            <div *ngIf="submitted && registrationForm.controls.role.errors" class="text-danger">
+                                <div *ngIf="registrationForm.controls.role.errors.required">Please upload profile
+                                    Profile.</div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <input type="submit"  (click)="registrationUser()" class="button" >
+                        </div>
+                        <div class="hr"></div>
+                        <div class="foot-lnk">
+                            <label for="tab-1">Already Member?</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="group">
-          <label for="pass" class="label"
-            >Password<span class="required-symbol">*</span></label
-          >
-          <input
-            id="pass"
-            type="password"
-            class="input"
-            data-type="password"
-            [(ngModel)]="loginReqObj.password"
-          />
-        </div>
-        <div class="group">
-          <input
-            type="submit"
-            (click)="loginAndGoToDashboard()"
-            class="button"
-            value="Sign In"
-          />
-        </div>
-      </div>
-      <div class="sign-up-htm">
-        <div class="group">
-          <label for="username" class="label"
-            >Username<span class="required-symbol">*</span></label
-          >
-          <input
-            id="username"
-            type="text"
-            class="input"
-            required
-            [(ngModel)]="regReqObj.username"
-          />
-        </div>
-        <div class="group">
-          <label for="email" class="label"
-            >Email<span class="required-symbol">*</span></label
-          >
-          <input
-            id="email"
-            type="email"
-            class="input"
-            required
-            [(ngModel)]="regReqObj.email"
-          />
-        </div>
-        <div class="group">
-          <label for="pass" class="label"
-            >Password<span class="required-symbol">*</span></label
-          >
-          <input
-            id="pass"
-            type="password"
-            class="input"
-            required
-            [(ngModel)]="regReqObj.password"
-          />
-        </div>
-        <div class="group">
-          <label for="phone" class="label"
-            >Phone Number<span class="required-symbol">*</span></label
-          >
-          <input
-            id="phone"
-            type="text"
-            class="input"
-            required
-            [(ngModel)]="regReqObj.mobileNumber"
-          />
-        </div>
-        <div class="group">
-          <label for="role" class="label"
-            >Role<span class="required-symbol">*</span></label
-          >
-          <select id="role" class="input" required [(ngModel)]="regReqObj.role">
-            <option value="">Select a role</option>
-            <option value="Educator">Educator</option>
-            <option value="Student">Student</option>
-          </select>
-        </div>
-        <div class="group">
-          <label for="image" class="label"
-            >Select File<span class="required-symbol">*</span></label
-          >
-          <input
-            id="image"
-            type="file"
-            class="input"
-            accept="image/*"
-            required
-            (change)="handleFileInput($event)"
-            [(ngModel)]="regReqObj.profileImage"
-          />
-        </div>
-        <div class="group">
-          <input
-            type="submit"
-            class="button"
-            value="Sign Up"
-            (click)="registerUser()"
-          />
-        </div>
-        <div class="hr"></div>
-        <div class="foot-lnk">
-          <label for="tab-1">Already Member?</label>
-        </div>
-      </div>
     </div>
-  </div>
 </div>

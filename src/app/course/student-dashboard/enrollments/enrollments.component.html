@@ -1,0 +1,42 @@
+<div class="divContent">
+    <h1></h1>
+    <div class="tab-wrap">
+        <div class="tab-label-content">
+            <div class="tab-content">
+                <div class="example-header">
+                    <!-- <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                    </mat-form-field> -->
+                </div>
+                <div class="example-container mat-elevation-z8">
+                    <mat-table [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.status}} </mat-cell>
+                        </ng-container>
+                      
+                        <ng-container matColumnDef="enrollmentDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Enrollment Date</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.enrollmentDate | date: 'yyyy-MM-dd'}} </mat-cell>
+                        </ng-container>
+                       
+                        <ng-container matColumnDef="action">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Action </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <button type="button" class="saveBtn" (click)="approveStatus(row)" [disabled]="row.status != 'pending'">Approve</button>
+                                <button type="button" class="saveBtn" (click)="rejectStatus(row)" [disabled]="row.status != 'pending'">Reject</button>
+                            </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                        </mat-row>
+                    </mat-table>
+                    <div class="d-flex justify-content-center p-5" *ngIf="enrollments?.length == 0">
+                        No records found
+                     </div>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
